@@ -1,6 +1,6 @@
 import { auth } from "./Firebase";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, fetchSignInMethodsForEmail } from "firebase/auth";
-  
+
 export async function login(email, password, setUser){
     await signInWithEmailAndPassword(auth, email, password)
     .then( async (userCredential) => {
