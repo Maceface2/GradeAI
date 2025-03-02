@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { logOut } from '@/backend/Auth';
 import { useStateContext } from '@/context/StateContext';
 const Navbar = () => {
-  const { setUser } = useStateContext()
+  const { user, setUser } = useStateContext()
 
   return (
     <Nav>
@@ -13,8 +13,14 @@ const Navbar = () => {
         <ButtonLink href="/dashboard/Home">Home</ButtonLink>
         <ButtonLink href="/about">About</ButtonLink>
         <ButtonLink href="/courses">Courses</ButtonLink>
-        <ButtonLink href="/auth/signup">Sign Up</ButtonLink>
-        <ButtonLink href="/auth/login">Login</ButtonLink>
+        {user ? ( // If user is logged in, show "Log Out"
+          <ButtonLink as="button" onClick={() => logOut(setUser)}>LogOut</ButtonLink>
+        ) : ( // If no user, show "Sign Up" & "Login"
+          <>
+            <ButtonLink href="/auth/signup">Sign Up</ButtonLink>
+            <ButtonLink href="/auth/login">Login</ButtonLink>
+          </>
+        )}
         
       </NavLinks>
     </Nav>
@@ -50,6 +56,7 @@ const ButtonLink = styled(Link)`
   border-radius: 5px;
   text-decoration: none;
   font-weight: bold;
+  font-size:15px;
   transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
 
   &:hover {

@@ -10,6 +10,7 @@ const Login = () => {
   const { user, setUser } = useStateContext()
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
+  const [error, setError] = useState("");
 
   const router = useRouter()
 
@@ -18,24 +19,29 @@ const Login = () => {
     if(emailRegex.test(email) == false ){
         return false;
     }
-    // const emailResponse = await isEmailInUse(email)
-    // if(emailResponse.length == 0 ){
-    //     return false;
-    // }
     return true;
 }
 
   async function handleLogin(){
+    setError("");
     const isValidEmail = await validateEmail()
     console.log('isValidEmail: ', isValidEmail)
-    if(!isValidEmail){ return; }
+    if(!isValidEmail){ 
+      setError("Invalid email format.");
+      return; 
+    }
     
     try{
         await login(email, password, setUser)
         console.log('login successful')
-        router.push('/dashboard')
+        router.push('/')
     }catch(err){
         console.log('Error Logging In', err)
+        if (err.code === "auth/invalid-credential") {
+          setError("Incorrect password or Email. Please try again.");
+      } else {
+          setError("Failed to login. Please try again.");
+      }
     }
   }
 
@@ -50,6 +56,8 @@ const Login = () => {
         <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
         <InputTitle>Password</InputTitle>
         <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
+        
+        {error && <ErrorText>{error}</ErrorText>}
 
         <UserAgreementText>By signing in, you automatically agree to our <UserAgreementSpan href='/legal/terms-of-use' rel="noopener noreferrer" target="_blank"> Terms of Use</UserAgreementSpan> and <UserAgreementSpan href='/legal/privacy-policy' rel="noopener noreferrer" target="_blank">Privacy Policy.</UserAgreementSpan></UserAgreementText>
 
@@ -140,6 +148,12 @@ const UserAgreementSpan = styled(Link)`
   &:not(:last-of-type)::after {
     content: ', '; /* Adds comma between links */
   }
+`;
+const ErrorText = styled.p`
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+  text-align: center;
 `;
 
 

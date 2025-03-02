@@ -4,23 +4,15 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 import { getAuth } from "firebase/auth";
 
-const firebaseConfig = process.env.NODE_ENV === 'production' ? {
-  apiKey: "AIzaSyAiaFktju4t5jIEOS5D1kVdPUjeOVLYpYA",
-  authDomain: "mvp-starter-8b994.firebaseapp.com",
-  projectId: "mvp-starter-8b994",
-  storageBucket: "mvp-starter-8b994.appspot.com",
-  messagingSenderId: "1090868381027",
-  appId: "1:1090868381027:web:088811e04d5857b1eeff56",
-  measurementId: "G-SQG8HKC9DP"
-} : {
-  apiKey: "AIzaSyAiaFktju4t5jIEOS5D1kVdPUjeOVLYpYA",
-  authDomain: "mvp-starter-8b994.firebaseapp.com",
-  projectId: "mvp-starter-8b994",
-  storageBucket: "mvp-starter-8b994.appspot.com",
-  messagingSenderId: "1090868381027",
-  appId: "1:1090868381027:web:088811e04d5857b1eeff56",
-  measurementId: "G-SQG8HKC9DP"
-}
+const firebaseConfig = {
+  apiKey: "AIzaSyB_JzGddKAFp7-c6LMR460wwUgNvG7ekOY",
+  authDomain: "gradeai-d627f.firebaseapp.com",
+  projectId: "gradeai-d627f",
+  storageBucket: "gradeai-d627f.firebasestorage.app",
+  messagingSenderId: "706151922543",
+  appId: "1:706151922543:web:2700f80f4b09516908069a",
+  measurementId: "G-KGZQQV8J4C"
+};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
