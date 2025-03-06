@@ -1,6 +1,6 @@
 export const gradeSubmission = async (answerKeyText, submissionText) => {
   try {
-    const OPENAI_API_KEY ='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';
+    const OPENAI_API_KEY ='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';
     
     
     const prompt = `
