@@ -1,10 +1,7 @@
 export const gradeSubmission = async (answerKeyText, submissionText) => {
   try {
-    // Using the public API key directly
     const OPENAI_API_KEY ='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';
-    if (!OPENAI_API_KEY) {
-      throw new Error("API key is missing. Please check your environment variables.");
-    }
+    
     
     const prompt = `
       You are an AI grading assistant. Your task is to grade a student's submission against an answer key.

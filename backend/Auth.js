@@ -7,7 +7,7 @@ export async function login(email, password, setUser) {
   .then(async (userCredential) => {
       const user = userCredential.user;
 
-      // Fetch user role from Firestore
+      // fetch user role from Firestore
       const userDoc = await getDoc(doc(database, "users", user.uid));
       let role = "student";  
       let name = "";

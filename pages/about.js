@@ -19,20 +19,6 @@ const About = () => {
         mistakes and improve their learning.
         </Paragraph>
       </Aboutdiv>
-      {/* <Step>
-        <Paragraph>
-          Upload homework file
-        </Paragraph>
-        
-      </Step>
-      <Step>
-        AI compares homework to answer key
-      </Step>
-      <Step>
-        graded and explained answers within seconds
-
-      </Step> */}
-      
     </Section>
    
     </>
@@ -52,7 +38,6 @@ const Aboutdiv = styled.div`
   display: flex;
   flex-direction: column;
   position: center;
-  border: 2px solid white;
   height: 500px;
   width: 100%;
   padding: 10px;

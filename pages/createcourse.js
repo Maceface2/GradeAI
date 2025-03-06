@@ -27,17 +27,17 @@ const CreateCourse = () => {
   const [studentSubmissions, setStudentSubmissions] = useState({});
   const [gradingInProgress, setGradingInProgress] = useState({});
 
-  // Load course data when courseId or user changes
+  // load course data when courseid or user changes
   useEffect(() => {
     if (courseId && user) fetchCourseData();
   }, [courseId, user]);
 
-  // Get course info, students, assignments and submissions
+  // get course info, students, assignments and submissions
   const fetchCourseData = async () => {
     setLoading(true);
     
     try {
-      // Get course info
+      // get course info
       const courseDoc = await getDoc(doc(database, "courses", courseId));
       
       if (!courseDoc.exists()) {
@@ -49,7 +49,7 @@ const CreateCourse = () => {
       const courseData = { id: courseDoc.id, ...courseDoc.data() };
       setCourseInfo(courseData);
       
-      // Get students
+      // get students
       const studentsData = [];
       if (courseData.students && courseData.students.length > 0) {
         for (const studentId of courseData.students) {
@@ -98,7 +98,7 @@ const CreateCourse = () => {
     }
   };
 
-  // Create a new assignment
+  // create a new assignment
   const handleCreateAssignment = async (e) => {
     e.preventDefault();
     
@@ -137,7 +137,7 @@ const CreateCourse = () => {
     }
   };
 
-  // Submit an assignment as a student
+  // submit an assignment as a student
   const handleSubmitAssignment = async (e) => {
     e.preventDefault();
     
@@ -150,10 +150,10 @@ const CreateCourse = () => {
     setMessage('Grading in progress...');
     
     try {
-      // Grade the submission
+      // grade the submission
       const gradingResult = await gradeSubmission(selectedAssignment.answerKeyText, submissionText);
       
-      // Save submission with grade
+      // save submission with grade
       await setDoc(doc(database, "courses", courseId, "assignments", selectedAssignment.id, "submissions", user.uid), {
         userId: user.uid,
         submissionText: submissionText,
@@ -166,7 +166,7 @@ const CreateCourse = () => {
         submissionStatus: "Graded"
       });
       
-      // Update local state
+      // update local state
       setSubmissions({
         ...submissions,
         [selectedAssignment.id]: {
@@ -192,7 +192,7 @@ const CreateCourse = () => {
     }
   };
 
-  // Add a student to the course
+  // add a student to the course
   const handleAddStudent = async (e) => {
     e.preventDefault();
     
@@ -204,7 +204,7 @@ const CreateCourse = () => {
     setLoading(true);
     
     try {
-      // Find student by email
+      // find student by email
       const q = query(collection(database, "users"), where("email", "==", studentEmail));
       const querySnapshot = await getDocs(q);
       
@@ -217,23 +217,23 @@ const CreateCourse = () => {
       const userId = userDoc.id;
       const userData = userDoc.data();
       
-      // Check if already enrolled
+      // check if already enrolled
       if (courseInfo.students && courseInfo.students.includes(userId)) {
         setMessage(`Student ${userData.name} is already enrolled`);
         return;
       }
       
-      // Add student to course
+      // add student to course
       await updateDoc(doc(database, "courses", courseId), { 
         students: arrayUnion(userId) 
       });
       
-      // Add course to student
+      // add course to student
       await updateDoc(doc(database, "users", userId), { 
         enrolledCourses: arrayUnion(courseId) 
       });
       
-      // Update local state
+      // update local state
       setCourseInfo({
         ...courseInfo,
         students: [...(courseInfo.students || []), userId]
@@ -251,19 +251,19 @@ const CreateCourse = () => {
     }
   };
 
-  // Grade a student submission
+  // grade a student submission
   const handleGradeSubmission = async (studentId, submission) => {
     setGradingInProgress(prev => ({ ...prev, [studentId]: true }));
     setMessage('Grading in progress...');
     
     try {
-      // Grade the submission
+      // grade the submission
       const gradingResult = await gradeSubmission(
         selectedAssignment.answerKeyText,
         submission.submissionText
       );
       
-      // Update the submission with grade
+      // update the submission with grade
       await updateDoc(doc(database, "courses", courseId, "assignments", selectedAssignment.id, "submissions", studentId), {
         grade: gradingResult.grade,
         feedback: gradingResult.feedback,
@@ -272,7 +272,7 @@ const CreateCourse = () => {
         gradedAt: serverTimestamp()
       });
       
-      // Update local state
+      // update local state
       setStudentSubmissions(prev => ({
         ...prev,
         [selectedAssignment.id]: {
@@ -297,7 +297,7 @@ const CreateCourse = () => {
     }
   };
 
-  // Format date for display
+  // format date for display
   const formatDate = (date) => {
     if (!date) return "N/A";
     if (typeof date === 'object' && date.toDate) date = date.toDate();
@@ -311,7 +311,7 @@ const CreateCourse = () => {
     <>
       <Navbar />
       <Section>
-        {/* Sidebar with assignments list */}
+        {/* sidebar with assignments list */}
         <SidePanel>
           <h2>Assignments</h2>
           {loading ? (
@@ -340,7 +340,7 @@ const CreateCourse = () => {
           )}
         </SidePanel>
         
-        {/* Main content area */}
+        {/* main content area */}
         <MainContent>
           <CourseHeader>
             <h1>{courseInfo?.name || 'Loading...'}</h1>
@@ -352,10 +352,10 @@ const CreateCourse = () => {
             )}
           </CourseHeader>
           
-          {/* Show messages */}
+          {/* show messages */}
           {message && <MessageBox success={!message.includes('Error')}>{message}</MessageBox>}
           
-          {/* Assignment creation form */}
+          {/* assignment creation form */}
           {showAssignmentForm && (
             <FormContainer>
               <h2>Create New Assignment</h2>
@@ -385,7 +385,7 @@ const CreateCourse = () => {
             </FormContainer>
           )}
           
-          {/* Add student form */}
+          {/* add student form */}
           {showStudentForm && (
             <FormContainer>
               <h2>Add Student to Course</h2>
@@ -403,7 +403,7 @@ const CreateCourse = () => {
             </FormContainer>
           )}
           
-          {/* Assignment details */}
+          {/* assignment details */}
           {selectedAssignment && (
             <AssignmentDetailContainer>
               <AssignmentHeader>
@@ -411,7 +411,7 @@ const CreateCourse = () => {
                 <CloseButton onClick={() => setSelectedAssignment(null)}>×</CloseButton>
               </AssignmentHeader>
               
-              {/* Student submission section */}
+              {/* student submission section */}
               {user?.role === "student" && (
                 <div>
                   {submissions[selectedAssignment.id] ? (
@@ -456,13 +456,11 @@ const CreateCourse = () => {
                 </div>
               )}
               
-              {/* Instructor section */}
+              {/* instructor section */}
               {user?.role === "instructor" && (
                 <div>
                   <h3>Answer Key:</h3>
-                  <AnswerKeyContainer>
-                    <pre>{selectedAssignment.answerKeyText}</pre>
-                  </AnswerKeyContainer>
+                  <pre>{selectedAssignment.answerKeyText}</pre>
                   
                   <h3>Student Submissions</h3>
                   {studentSubmissions[selectedAssignment.id] && 
@@ -512,7 +510,7 @@ const CreateCourse = () => {
             </AssignmentDetailContainer>
           )}
           
-          {/* Course overview */}
+          {/* course overview */}
           {!showAssignmentForm && !showStudentForm && !selectedAssignment && (
             <>
               <div>
@@ -527,7 +525,7 @@ const CreateCourse = () => {
                 )}
               </div>
               
-              {/* Student list for instructors */}
+              {/* student list for instructors */}
               {enrolledStudents.length > 0 && user?.role === "instructor" && (
                 <div>
                   <h2>Enrolled Students</h2>
@@ -557,7 +555,7 @@ const CreateCourse = () => {
   );
 };
 
-// Basic styled components
+// basic styled components
 const Section = styled.section`
   display: flex;
   min-height: 100vh;
