@@ -1,7 +1,9 @@
 export const gradeSubmission = async (answerKeyText, submissionText) => {
   try {
-    const OPENAI_API_KEY ='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';
-    
+    // Fetch API key from hello endpoint
+    const keyResponse = await fetch('/api/hello');
+    const keyData = await keyResponse.json();
+    const OPENAI_API_KEY = keyData.openAiKey;
     
     const prompt = `
       You are an AI grading assistant. Your task is to grade a student's submission against an answer key.
