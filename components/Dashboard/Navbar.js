@@ -10,12 +10,16 @@ const Navbar = () => {
     <Nav>
       <Logo onClick={() => logOut(setUser)} href="/">GradeAI</Logo>
       <NavLinks>
-        <ButtonLink href="/dashboard/Home">Home</ButtonLink>
+        <ButtonLink href="/">Home</ButtonLink>
         <ButtonLink href="/about">About</ButtonLink>
-        <ButtonLink href="/courses">Courses</ButtonLink>
-        {user ? ( // If user is logged in, show "Log Out"
-          <ButtonLink as="button" onClick={() => logOut(setUser)}>LogOut</ButtonLink>
-        ) : ( // If no user, show "Sign Up" & "Login"
+        
+        {user ? ( // if user is logged in show LogOut
+          <>
+          <ButtonLink href="/courses">Courses</ButtonLink>
+          <ButtonLink as="a" href = "/" onClick={() => logOut(setUser)}>LogOut</ButtonLink>
+          </>
+          
+        ) : ( // if no user show Sign Up and Login
           <>
             <ButtonLink href="/auth/signup">Sign Up</ButtonLink>
             <ButtonLink href="/auth/login">Login</ButtonLink>

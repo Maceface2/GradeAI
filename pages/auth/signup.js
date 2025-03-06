@@ -10,6 +10,8 @@ const Signup = () => {
   const { user, setUser } = useStateContext()
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
+  const [ role, setRole ] = useState("")
+  const [ name, setName ] = useState("")
 
   const router = useRouter()
 
@@ -34,7 +36,8 @@ const Signup = () => {
     // if(!isValidEmail){ return; }
     
     try{
-        await register(email, password, setUser)
+        await register(email, password, role, setUser, name)
+        console.log(role)
         router.push('/')
     }catch(err){
         console.log('Error Signing Up', err)
@@ -52,10 +55,12 @@ const Signup = () => {
         <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)}/>
         <InputTitle>Password</InputTitle>
         <Input type="password" value={password} onChange={(e) => setPassword(e.target.value)}/>
-        <select>
+        <InputTitle>Name</InputTitle>
+        <Input type="text" value={name} onChange={(e) => setName(e.target.value)}/>
+        <select value = {role} onChange = {(e)=> setRole(e.target.value)}>
           <option value="">-- Choose --</option>
           <option value="student">Student</option>
-          <option value="teacher">Teacher</option>
+          <option value="instructor">Instructor</option>
         </select>
         <UserAgreementText>By signing in, you automatically agree to our <UserAgreementSpan href='/legal/terms-of-use' rel="noopener noreferrer" target="_blank"> Terms of Use</UserAgreementSpan> and <UserAgreementSpan href='/legal/privacy-policy' rel="noopener noreferrer" target="_blank">Privacy Policy.</UserAgreementSpan></UserAgreementText>
 
