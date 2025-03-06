@@ -36,4 +36,4 @@ next-env.d.ts
 
 .env
 
-/backend/gptAPI.js
+backend/gptAPI.js
