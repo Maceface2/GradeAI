@@ -1,7 +1,7 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-
-// EXAMPLE API THAT NEXT.js PROVIDES
 export default function handler(req, res) {
-  res.status(200).json({ name: 'John Doe' })
+  res.status(200).json({ 
+    openAiKey: process.env.OPENAI_API_KEY 
+  })
 }
